@@ -1,0 +1,19 @@
+version: '3'
+services: 
+    react-app:
+        build:
+            context: . # Specify where to search for dockerfile
+            dockerfile: Dockerfile.dev # The custom dockerfile name
+        ports: 
+            - "3000:3000"
+        volumes: 
+            - /app/node_modules # Create a bookmard from node_modules/ directory inside the container to present working directory
+            - .:/app # Map everything inside present working directory inside of the container
+    tests:
+        build: 
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes: 
+            - /app/node_modules
+            - .:/app
+        command: ["npm", "run", "test"]

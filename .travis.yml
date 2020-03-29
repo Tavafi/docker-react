@@ -2,4 +2,6 @@ sudo: required
 services:
     - docker
 before_install:
-    - docker build -t Tavafi/docker-react -f Dockerfile.dev .
+    - docker build -t tavafi/docker-react -f Dockerfile.dev .
+script:
+    - docker run tavafi/docker-react npm run test -- --coverage

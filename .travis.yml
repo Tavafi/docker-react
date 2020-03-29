@@ -4,4 +4,4 @@ services:
 before_install:
     - docker build -t tavafi/docker-react -f Dockerfile.dev .
 script:
-    - docker run tavafi/docker-react npm run test -- --coverage
+    - docker run -e CI=true tavafi/docker-react npm run test -- --coverage

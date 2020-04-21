@@ -5,3 +5,20 @@ before_install:
     - docker build -t tavafi/docker-react -f Dockerfile.dev .
 script:
     - docker run -e CI=true tavafi/docker-react npm run test -- --coverage
+
+deploy:
+    provider: elasticbeanstalk
+    region: "us-west-2"
+    app: "docker"
+    env: "Docker-env"
+    bucket_name: "elasticbeanstalk-us-west-2-blablabla"
+    bucket_path: "docker"
+    on:
+        branch: master
+    # We can manage the access from outside of the AWS services via AWS `IAM` service which stores and handles all users with their API keys and something like that for tools and apps like travis-ci that run independently outside of the AWS and is needed to be authenticated via for example API key.
+    # After creating user in AWS IAM service, we get all credentials such as `Access key id` and `Secret key`
+    # We create environment variables in travis-ci -> selected git repo -> more options -> settings -> Environment Variables section
+    # Then we add them in travis.yml config file as you can see below:
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: "$AWS_SECRET_KEY"
